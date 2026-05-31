@@ -302,7 +302,7 @@ Public URL = anyone can access forever. Pre-signed URL = temporary access with e
 ## 👨‍💻 Author
 
 **Narendra Deshmukh**
-AWS Cloud Engineer | BCA Final Year | Pune, Maharashtra
+AWS Cloud Engineer | Devops Enginner | Pune, Maharashtra
 
 [![GitHub](https://img.shields.io/badge/GitHub-narendra--clouds-black?style=flat&logo=github)](https://github.com/narendra-clouds)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-narendra--deshmukh--cloud-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/narendra-deshmukh-cloud/)
