@@ -48,58 +48,58 @@ Most developers host static websites on shared hosting services that are:
 ## 🏗️ Solution Architecture
 
 ```
-                                               ┌─────────────────────────────────────────┐
-                                               │           USERS WORLDWIDE               │
-                                               └──────────────┬──────────────────────────┘
-                                                              │ HTTPS Request
-                                                              ▼
-                                               ┌─────────────────────────────────────────┐
-                                               │         AWS CLOUDFRONT CDN              │
-                                               │   d3l2xvnnse24tu.cloudfront.net         │
-                                               │                                         │
-                                               │  • 400+ Edge Locations Worldwide        │
-                                               │  • Free SSL/TLS Certificate (ACM)       │
-                                               │  • HTTP → HTTPS Redirect                │
-                                               │  • Custom 404 Error Page                │
-                                               │  • DDoS Protection (AWS Shield)         │
-                                               └──────────────┬──────────────────────────┘
-                                                              │ Cache Miss → Fetch Origin
-                                                              ▼
-                      ┌───────────────────────────────────────────────────────────────────────────┐
-                      │                    AWS S3 — ap-south-1 (Mumbai) PRIMARY                   │
-                      │                         narendra-portfolio-26                             │
-                      │                                                                           │
-                      │  ┌─────────────────┐  ┌──────────────────┐  ┌───────────────────────┐     │
-                      │  │ Static Website  │  │   Versioning     │  │   Lifecycle Rules     │     │
-                      │  │ Hosting Enabled │  │   Enabled        │  │   30d → Standard-IA   │     │
-                      │  │ index.html      │  │   All versions   │  │   90d → Delete        │     │
-                      │  │ 404.html        │  │   tracked        │  │   Old versions        │     │
-                      │  └─────────────────┘  └──────────────────┘  └───────────────────────┘     │
-                      │                                                                           │
-                      │  ┌─────────────────┐  ┌──────────────────┐  ┌───────────────────────┐     │
-                      │  │  Bucket Policy  │  │  Pre-signed URLs │  │    Access Logging     │     │
-                      │  │  Public Read    │  │  Temp Access     │  │    → logs bucket      │     │
-                      │  │  GetObject      │  │  1hr expiry      │  │    All requests       │     │
-                      │  └─────────────────┘  └──────────────────┘  └───────────────────────┘     │
-                      └───────────────────────────────┬───────────────────────────────────────────┘
-                                                      │ Cross Region Replication (CRR)
-                                                      │ Automatic — Real Time
-                                                      ▼
-                      ┌───────────────────────────────────────────────────────────────────────────┐
-                      │                  AWS S3 — us-east-1 (N. Virginia) REPLICA                 │
-                      │                         narendra-portfolio-replica                        │
-                      │                                                                           │
-                      │              Disaster Recovery Backup — Auto Replicated                   │
-                      │              If Mumbai goes down → Data safe in Virginia                  │
-                      └───────────────────────────────────────────────────────────────────────────┘
-                      
-                      ┌───────────────────────────────────────────────────────────────────────────┐
-                      │                  AWS S3 — ap-south-1 (Mumbai) LOGS                        │
-                      │                         narendra-portfolio-logs                           │
-                      │                                                                           │
-                      │              All S3 access logs stored here                               │
-                      │              Who visited, when, which file, IP address                    │
-                      └───────────────────────────────────────────────────────────────────────────┘
+                           ┌─────────────────────────────────────────┐
+                           │           USERS WORLDWIDE               │
+                           └──────────────┬──────────────────────────┘
+                                          │ HTTPS Request
+                                          ▼
+                           ┌─────────────────────────────────────────┐
+                           │         AWS CLOUDFRONT CDN              │
+                           │   d3l2xvnnse24tu.cloudfront.net         │
+                           │                                         │
+                           │  • 400+ Edge Locations Worldwide        │
+                           │  • Free SSL/TLS Certificate (ACM)       │
+                           │  • HTTP → HTTPS Redirect                │
+                           │  • Custom 404 Error Page                │
+                           │  • DDoS Protection (AWS Shield)         │
+                           └──────────────┬──────────────────────────┘
+                                          │ Cache Miss → Fetch Origin
+                                          ▼
+      ┌───────────────────────────────────────────────────────────────────────────┐
+      │                    AWS S3 — ap-south-1 (Mumbai) PRIMARY                   │
+      │                         narendra-portfolio-26                             │
+      │                                                                           │
+      │  ┌─────────────────┐  ┌──────────────────┐  ┌───────────────────────┐     │
+      │  │ Static Website  │  │   Versioning     │  │   Lifecycle Rules     │     │
+      │  │ Hosting Enabled │  │   Enabled        │  │   30d → Standard-IA   │     │
+      │  │ index.html      │  │   All versions   │  │   90d → Delete        │     │
+      │  │ 404.html        │  │   tracked        │  │   Old versions        │     │
+      │  └─────────────────┘  └──────────────────┘  └───────────────────────┘     │
+      │                                                                           │
+      │  ┌─────────────────┐  ┌──────────────────┐  ┌───────────────────────┐     │
+      │  │  Bucket Policy  │  │  Pre-signed URLs │  │    Access Logging     │     │
+      │  │  Public Read    │  │  Temp Access     │  │    → logs bucket      │     │
+      │  │  GetObject      │  │  1hr expiry      │  │    All requests       │     │
+      │  └─────────────────┘  └──────────────────┘  └───────────────────────┘     │
+      └───────────────────────────────┬───────────────────────────────────────────┘
+                                      │ Cross Region Replication (CRR)
+                                      │ Automatic — Real Time
+                                      ▼
+      ┌───────────────────────────────────────────────────────────────────────────┐
+      │                  AWS S3 — us-east-1 (N. Virginia) REPLICA                 │
+      │                         narendra-portfolio-replica                        │
+      │                                                                           │
+      │              Disaster Recovery Backup — Auto Replicated                   │
+      │              If Mumbai goes down → Data safe in Virginia                  │
+      └───────────────────────────────────────────────────────────────────────────┘
+      
+      ┌───────────────────────────────────────────────────────────────────────────┐
+      │                  AWS S3 — ap-south-1 (Mumbai) LOGS                        │
+      │                         narendra-portfolio-logs                           │
+      │                                                                           │
+      │              All S3 access logs stored here                               │
+      │              Who visited, when, which file, IP address                    │
+      └───────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
