@@ -69,18 +69,18 @@ Most developers host static websites on shared hosting services that are:
 │                    AWS S3 — ap-south-1 (Mumbai) PRIMARY                   │
 │                         narendra-portfolio-26                             │
 │                                                                           │
-│  ┌─────────────────┐  ┌──────────────────┐  ┌───────────────────────┐   │
-│  │ Static Website  │  │   Versioning     │  │   Lifecycle Rules     │   │
-│  │ Hosting Enabled │  │   Enabled        │  │   30d → Standard-IA   │   │
-│  │ index.html      │  │   All versions   │  │   90d → Delete        │   │
-│  │ 404.html        │  │   tracked        │  │   Old versions        │   │
-│  └─────────────────┘  └──────────────────┘  └───────────────────────┘   │
+│  ┌─────────────────┐  ┌──────────────────┐  ┌───────────────────────┐     │
+│  │ Static Website  │  │   Versioning     │  │   Lifecycle Rules     │     │
+│  │ Hosting Enabled │  │   Enabled        │  │   30d → Standard-IA   │     │
+│  │ index.html      │  │   All versions   │  │   90d → Delete        │     │
+│  │ 404.html        │  │   tracked        │  │   Old versions        │     │
+│  └─────────────────┘  └──────────────────┘  └───────────────────────┘     │
 │                                                                           │
-│  ┌─────────────────┐  ┌──────────────────┐  ┌───────────────────────┐   │
-│  │  Bucket Policy  │  │  Pre-signed URLs │  │    Access Logging     │   │
-│  │  Public Read    │  │  Temp Access     │  │    → logs bucket      │   │
-│  │  GetObject      │  │  1hr expiry      │  │    All requests       │   │
-│  └─────────────────┘  └──────────────────┘  └───────────────────────┘   │
+│  ┌─────────────────┐  ┌──────────────────┐  ┌───────────────────────┐     │
+│  │  Bucket Policy  │  │  Pre-signed URLs │  │    Access Logging     │     │
+│  │  Public Read    │  │  Temp Access     │  │    → logs bucket      │     │
+│  │  GetObject      │  │  1hr expiry      │  │    All requests       │     │
+│  └─────────────────┘  └──────────────────┘  └───────────────────────┘     │
 └───────────────────────────────┬───────────────────────────────────────────┘
                                 │ Cross Region Replication (CRR)
                                 │ Automatic — Real Time
